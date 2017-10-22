@@ -10,4 +10,14 @@ module.exports = function(app, db){
       res.json(categories)
     })
   })
+
+  app.delete('/api/categories', (req, res) => {
+    const query =categoryModel.where({})
+
+    query.remove(function(err, categories){
+      if(err) res.json(err);
+
+      res.json(categories)
+    })
+  })
 }

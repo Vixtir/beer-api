@@ -5,18 +5,33 @@ module.exports = function(app, db){
   app.get('/api/beers', (req, res) => {
     const query = beerModel.where({})
 
-    query.find(function(err, beers){
+    query
+      .find()
+      .populate(
+        {
+          path: 'style',
+          model: 'Style',
+          populate: {
+            path: 'category',
+            model: 'Category'
+          }
+        }
+      )
+      .exec(function(err, beers){
       if(err) res.json(err);
 
       res.json(beers)
     })
   })
 
-  app.get('/beers',(req, res) => {
-    res.json({'message': '/beers'})
-  })
+  app.delete('/api/beers', (req, res) => {
+    const query = beerModel.where({})
 
-  app.post('/beer', (req, res) => {
-    res.json({'message': '/beer'})
+    query.remove(function(err, beers){
+      if(err) res.json(err);
+
+      res.json(beers)
+    })
   })
 }
+

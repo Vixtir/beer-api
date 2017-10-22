@@ -7,10 +7,10 @@ const beerSchema = mongoose.Schema({
   abv: Number,
   ibu: Number,
   isOrganic: String,
-  labels: Number,
-  styleId: Number,
   servingTemperature: String,
-  servingTemperatureDisplay: String
+  servingTemperatureDisplay: String,
+  labels: mongoose.Schema.Types.Mixed,
+  style: {type: mongoose.Schema.ObjectId, ref: 'Style'},
 });
 
 
