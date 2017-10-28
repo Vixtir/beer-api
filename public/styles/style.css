@@ -4,7 +4,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: 'Berkshire Swash', cursive;
+  font-family: 'Lato', cursive;
 }
 
 html, body{
@@ -18,8 +18,8 @@ html, body{
   text-align: center;
 }
 
-h1{
-  font-size: 8em;
+.title{
+  font-size: 6em;
 }
 
 .tagline {
@@ -29,11 +29,12 @@ h1{
 
 .beerForm input{
   width: 300px;
-  height: 50px;
-  margin: 20px auto;
-  font-size: 30px;
+  height: 30px;
+  margin: 10px auto;
+  font-size: 2em;
+  text-align: center;
   border: none;
-  border-bottom: 1px brown solid;
+  border-bottom: 1px black solid;
 }
 
 .beerForm input:focus{
@@ -43,12 +44,72 @@ h1{
 
 .beerInfo {
   overflow: hidden;
-  border: 1px black solid;
-  width: 100%;
+  border: 1px lightgrey solid;
+  width: 300px;
   max-height: 200px;
-  margin: 5px 0;
+  min-height: 100px;
+  margin: 5px auto;
 }
 
 .beerInfo_img {
   float: left;
+}
+
+.beerInfo_name {
+  font-size: 20px;
+  margin: 5px;
+  min-height: 50px;
+}
+
+.beer {
+  width: 302px;
+  height: 102px;
+  margin: 5px auto;
+}
+
+.beer_image {
+  height: 90px;
+  width: 90px;
+  margin: 5px;
+  padding: 2px;
+  border: 2px solid brown;
+  float: left;
+}
+
+.beer_information {
+  height: 90px;
+  width: 190px;
+  float: right;
+  margin: 5px;
+  text-align: left;
+  
+}
+
+.beer_name {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: bold;
+  height: 45px;
+}
+
+.beer_common-info {
+  margin: 2px;
+}
+
+.beer-metric {
+  display: inline-block;
+  width: 90px;
+  font-size: small;
+}
+
+.beer_metric-name {
+  display: inline-block;
+  width: 24px;
+  text-align: right;
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.beer_metric-data {
+  display: inline-block;
 }

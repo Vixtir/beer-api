@@ -23,6 +23,7 @@ function saveBeer(importBeer){
         if(err){
           reject(new Error(err))
         } else {
+          console.dir('saved')
           resolve(newBeer);
         }
       });
@@ -35,11 +36,10 @@ function importBeers(beers){
   return Promise.all(beers.map(saveBeer));
 }
 
-function makeRequest(index){
-  const apiUrl = `http://api.brewerydb.com/v2/search?key=${brewApiKey}&q=a&p=${index}&type=beer`
-  
-
-  return new Promise((resolve, reject)=>{
+function makeRequest(numPage){
+    const apiUrl = `http://api.brewerydb.com/v2/search?key=${brewApiKey}&q=a&p=${numPage}&type=beer`
+    console.dir(apiUrl);
+    return new Promise((resolve, reject)=>{
     let xhr = new XMLHttpRequest();
     xhr.open('GET', apiUrl);
     xhr.send();
@@ -48,7 +48,10 @@ function makeRequest(index){
       if (xhr.readyState == 4 && xhr.status == 200){
         const data = JSON.parse(xhr.responseText).data;
         importBeers(data)
-          .then( res => resolve() )
+          .then( res => {
+            console.dir(res);
+            resolve()}
+           )
           .catch( err => reject(err))
       }
     }
@@ -56,12 +59,11 @@ function makeRequest(index){
 }
 
 function promiseRequests(){
-  let test = [];
-  for(var i = 1; i < 100; i++){
-    test.push(1);
+  let pagesArray = [];
+  for(let numPage = 1; numPage < 100; numPage++){
+    pagesArray.push(numPage);
   }
-
-  return Promise.all(test.map(makeRequest));
+  return Promise.all(pagesArray.map(makeRequest));
 }
 
 module.exports = function(app){
