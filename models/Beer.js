@@ -10,8 +10,42 @@ const beerSchema = mongoose.Schema({
   servingTemperature: String,
   servingTemperatureDisplay: String,
   labels: mongoose.Schema.Types.Mixed,
-  style: {type: mongoose.Schema.ObjectId, ref: 'Style'},
+  style: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Style'
+  },
 });
+
+beerSchema.statics.searchByName = function searchByName(name, limit = 10, cb) {
+  this.where('name', new RegExp(`${name}`, `i`))
+    .find()
+    .limit(limit)
+    .populate({
+      path: 'style',
+      model: 'Style',
+      populate: {
+        path: 'category',
+        model: 'Category'
+      }
+    })
+    .exec(cb);
+}
+
+beerSchema.statics.search = function search(limit = 10, cb) {
+  this.where({})
+    .find()
+    .limit(limit)
+    .populate({
+      path: 'style',
+      model: 'Style',
+      populate: {
+        path: 'category',
+        model: 'Category'
+      }
+    })
+    .exec(cb);
+
+}
 
 
 
