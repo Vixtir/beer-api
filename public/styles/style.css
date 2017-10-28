@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Berkshire+Swash');
-
 * {
   padding: 0;
   margin: 0;
@@ -7,19 +6,22 @@
   font-family: 'Lato', cursive;
 }
 
-html, body{
+html,
+body {
   height: 100%
 }
 
-#app{
+#app {
   max-width: 800px;
   height: 100%;
   margin: 0 auto;
   text-align: center;
 }
 
-.title{
+.title {
+  display: inline-block;
   font-size: 6em;
+  margin-top: 10px;
 }
 
 .tagline {
@@ -27,7 +29,7 @@ html, body{
   color: grey;
 }
 
-.beerForm input{
+.beerForm input {
   width: 300px;
   height: 30px;
   margin: 10px auto;
@@ -37,7 +39,7 @@ html, body{
   border-bottom: 1px black solid;
 }
 
-.beerForm input:focus{
+.beerForm input:focus {
   outline: none;
   border-bottom: 1px black solid;
 }
@@ -71,8 +73,8 @@ html, body{
   height: 90px;
   width: 90px;
   margin: 5px;
-  padding: 2px;
-  border: 2px solid brown;
+  padding: 5px;
+  border: 1px solid black;
   float: left;
 }
 
@@ -82,7 +84,6 @@ html, body{
   float: right;
   margin: 5px;
   text-align: left;
-  
 }
 
 .beer_name {
@@ -90,6 +91,7 @@ html, body{
   font-size: 18px;
   font-weight: bold;
   height: 45px;
+  width: 100%;
 }
 
 .beer_common-info {
