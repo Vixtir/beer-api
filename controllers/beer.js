@@ -11,7 +11,7 @@ module.exports = function (app, db) {
       err ? res.json(err)
           : res.json(beers)
     }
-    
+    console.dir(req.query);
     const result = req.query.name ? beerModel.searchByName(req.query.name, LIMIT, cb)
                                   : beerModel.search(LIMIT, cb);
   })
@@ -24,5 +24,14 @@ module.exports = function (app, db) {
 
       res.json(beers)
     })
+  })
+
+  app.get('/api/beer/:id', (req, res) => {
+    const id = req.params.id;
+    let cb = (err, beer) => {
+      err ? res.json(err)
+          : res.json(beer)
+    }
+    const result = beerModel.searchById(id, cb);
   })
 }
