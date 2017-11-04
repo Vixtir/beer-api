@@ -72,12 +72,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__beers__ = __webpack_require__(1);
 
 
-let beerInput = document.querySelector('#beerNameInput');
+document.onscroll = function(e){
+  let header = document.querySelector('div.bigHeader');
+  let height = getComputedStyle(header).height;
+  console.dir(height);
+  let scroll = window.pageYOffset || document.documentElement.scrollTop;
 
+  if(scroll > parseInt(height)){
+    header.classList.toggle('fixed', true)
+  } else {
+    header.classList.toggle('fixed', false)
+  }
+}
+
+let beerInput = document.querySelector('#beerNameInput');
+let newSearchBeer = myThrotlle(__WEBPACK_IMPORTED_MODULE_0__beers__["a" /* default */], 500);
 beerInput.addEventListener('input', function(e){
-  Object(__WEBPACK_IMPORTED_MODULE_0__beers__["a" /* default */])();
+  let form = document.forms['beerForm'];
+  let beerName = form.elements['beerName'].value;
+  newSearchBeer(beerName);
 })
 
+function myThrotlle(f, ms){
+  var throttle = false,
+      currentArgs;
+
+  return function wrapper(){
+    if(throttle){
+      currentArgs = arguments;
+      return;
+    } 
+    
+    throttle = true;            
+    f.apply(null, arguments);
+
+    setTimeout(
+      function(){
+        throttle = false;
+        if(currentArgs){
+          wrapper.apply(null, currentArgs);
+          currentArgs = null;
+        }
+      }, ms);
+  }
+}
 
 /***/ }),
 /* 1 */
@@ -95,7 +133,8 @@ class Beer{
     this.beerInfo       = this.createBeerInformationElement('div', 'beer_information');
     this.beerName       = this.createBeerNameElement('span', 'beer_name', props.name);
     this.beerCommonInfo = this.createCommonInfoElement('div', 'beer_common-info', props);
-
+    this.fullBeerInfo   = this.createFullBeerInfoElement('div', 'beer_full-info');
+    this.beerId = props._id;
     this.createMetricElement = this.createMetricElement.bind(this);
   }
 
@@ -117,6 +156,12 @@ class Beer{
   };
 
   createBeerInformationElement (node,className){
+    let elem = document.createElement(node);
+    elem.className = className;
+    return elem;
+  };
+
+  createFullBeerInfoElement (node,className){
     let elem = document.createElement(node);
     elem.className = className;
     return elem;
@@ -191,14 +236,55 @@ class Beer{
     elem.className = className;
     return elem;
   }
+
+  createFullDescription(beer){
+    let result;
+    let _beer = Object.assign({}, beer);
+    result = _beer.style.description;
+    return result;
+  }
+
+  onClick(e){
+    let promise = new Promise((resolve, reject) => {
+      const url = `api/beer/${this.beerId}`;
+      let request = new XMLHttpRequest();
+      request.open('GET', url);
+      request.send();
+    
+      request.onreadystatechange = () => {
+        if (request.readyState == 4 && request.status == 200) {
+          let response = JSON.parse(request.responseText);
+          if (response) {
+            resolve(response)
+          } else {
+            reject(new Error("Something went wrong"))
+          }
+        };
+      }
+    })
+
+    promise
+    .then( beer => {
+        let fullDescription = this.createFullDescription(beer);
+        let elem = this.beerElement.querySelector('div.beer_full-info');
+        elem.innerHTML += fullDescription;
+        elem.classList.toggle('open');
+        return;
+      })
+    .catch( err => console.dir(err));
+}
   
   render(){
+    this.beerElement.appendChild(this.beerImage);
+
     this.beerInfo.appendChild(this.beerName);
     this.beerInfo.appendChild(this.beerCommonInfo);
-  
-    this.beerElement.appendChild(this.beerImage);
     this.beerElement.appendChild(this.beerInfo);
 
+    this.beerElement.appendChild(this.fullBeerInfo);
+
+    this.beerElement.addEventListener('click', (e) => this.onClick(e))
+    
     return this.beerElement;
   }
 }
@@ -207,11 +293,14 @@ class Beers {
   constructor(dataArray) {
     this.container = document.createElement('div');
     this.container.className = 'beerContainer';
+
     this.beerList = this.fetchData(dataArray);
 
     this.createBeerElement = this.createBeerElement.bind(this);
     this.addElement = this.addElement.bind(this);
   }
+
+
 
   fetchData(dataArray) {
     return dataArray.map(this.createBeerElement);
@@ -228,34 +317,72 @@ class Beers {
 
   render() {
     this.beerList.forEach(this.addElement);
-    beerWrapper.appendChild(this.container);
+    if(beerWrapper.children.item(0)){
+      beerWrapper.replaceChild(this.container, beerWrapper.children.item(0));
+    } else {
+      beerWrapper.appendChild(this.container);
+    }
   }
 }
 
-function searchBeer() {
-  let form = document.forms['beerForm'];
-  let beerName = form.elements['beerName'].value;
-  let url = 'http://localhost:3000/api/beers'
+function throtlle(f, ms = 1000){
+  let throttle = false;
+  let currentArgs;
 
-  if (beerName) {
-    url += `?name=${beerName}`
+  function wrapper(){
+    if(throttle){
+      currentArgs = arguments;
+      return;
+    } else {
+      throtlle = true;
+      let timer = setTimeout(
+        () => { 
+          throttle = false;
+          f.apply(null, args);
+        }, 
+      ms);
+    }
   }
 
-  let request = new XMLHttpRequest();
-  request.open('GET', url);
-  request.send();
+  return wrapper;
+}
 
-  request.onreadystatechange = () => {
-    if (request.readyState == 4 && request.status == 200) {
-      let response = JSON.parse(request.responseText);
-      if (response) {
-        const beerList = new Beers(response);
+function searchBeer(value) {
+  let url = 'api/beers'
+  if (value) {
+    url += `?name=${value}`
+  }
+
+  let promise = new Promise((resolve, reject) => {
+    let request = new XMLHttpRequest();
+    request.open('GET', url);
+    request.send();
+  
+    request.onreadystatechange = () => {
+      if (request.readyState == 4 && request.status == 200) {
+        let response = JSON.parse(request.responseText);
+        if (response) {
+          resolve(response);
+        } else {
+          reject(new Error('some went wrong'));
+        }
+      };
+    }
+  })
+
+  promise
+    .then( beers => {
+      if(beers.length){
+        beerWrapper.innerHTML = ""
+        const beerList = new Beers(beers);
         beerList.render(beerWrapper);
       } else {
-        beerWrapper.innerHTML = 'No beer found';
-      }
-    };
-  }
+        beerWrapper.innerHTML = "Beers not found :c"
+      } 
+    })
+    .catch( err => {
+      console.error(err)
+    } )
 };
 
 /***/ })

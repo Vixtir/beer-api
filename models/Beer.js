@@ -16,6 +16,20 @@ const beerSchema = mongoose.Schema({
   },
 });
 
+beerSchema.statics.searchById = function searchById(id, cb) {
+  this
+    .findOne({'_id': id})
+    .populate({
+      path: 'style',
+      model: 'Style',
+      populate: {
+        path: 'category',
+        model: 'Category'
+      }
+    })
+    .exec(cb);
+}
+
 beerSchema.statics.searchByName = function searchByName(name, limit = 10, cb) {
   this.where('name', new RegExp(`${name}`, `i`))
     .find()
