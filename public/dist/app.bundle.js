@@ -72,10 +72,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__beers__ = __webpack_require__(1);
 
 
+document.addEventListener("DOMContentLoaded", function(){
+  Object(__WEBPACK_IMPORTED_MODULE_0__beers__["a" /* default */])();
+});
+
+
 document.onscroll = function(e){
   let header = document.querySelector('div.bigHeader');
   let height = getComputedStyle(header).height;
-  console.dir(height);
   let scroll = window.pageYOffset || document.documentElement.scrollTop;
 
   if(scroll > parseInt(height)){

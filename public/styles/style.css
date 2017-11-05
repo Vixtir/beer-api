@@ -12,7 +12,7 @@ body {
 }
 
 #app {
-  max-width: 800px;
+  max-width: 960px;
   height: 100%;
   margin: 0 auto;
   text-align: center;
@@ -22,7 +22,7 @@ body {
 .bigHeader {
   margin: 0 auto;
   width: 100%;
-  max-width: 800px;
+  max-width: 960px;
   color: white;
   background: rgba(150, 0, 0, 0.50);
   height: 130px;
@@ -89,9 +89,11 @@ body {
 }
 
 .beer {
-  width: 302px;
+  width: 70%;
+  min-width: 302px;
   margin: 0 auto;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
+  padding: 5px;
   cursor: pointer;
 }
 
@@ -102,7 +104,7 @@ body {
 .beer_image {
   height: 90px;
   width: 90px;
-  margin: 5px;
+  margin-left: 5px;
   padding: 5px;
   border: 1px solid black;
   float: left;
@@ -111,8 +113,8 @@ body {
 .beer_information {
   height: 90px;
   width: 190px;
-  float: right;
   margin: 5px;
+  margin-left: 100px;
   text-align: left;
 }
 
@@ -159,4 +161,20 @@ body {
 .beer_full-info.open {
   height: 300px;
   opacity: 1;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1140px){
+  .beer {
+    float: left;
+    margin-left: 5.55555555556%; 
+    width: 41.6666666667%;
+  }
+}
+
+@media screen and (min-width: 1141px){
+  .beer {
+    float: left;
+    margin-left: 1.5625%;
+    width: 31.25%;
+  }
 }

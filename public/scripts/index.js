@@ -1,9 +1,13 @@
 import searchBeer from './beers';
 
+document.addEventListener("DOMContentLoaded", function(){
+  searchBeer();
+});
+
+
 document.onscroll = function(e){
   let header = document.querySelector('div.bigHeader');
   let height = getComputedStyle(header).height;
-  console.dir(height);
   let scroll = window.pageYOffset || document.documentElement.scrollTop;
 
   if(scroll > parseInt(height)){
