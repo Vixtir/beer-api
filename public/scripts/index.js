@@ -10,7 +10,7 @@ document.onscroll = function(e){
   let height = getComputedStyle(header).height;
   let scroll = window.pageYOffset || document.documentElement.scrollTop;
 
-  if(scroll > parseInt(height)){
+  if(scroll > parseInt(height)/2){
     header.classList.toggle('fixed', true)
   } else {
     header.classList.toggle('fixed', false)

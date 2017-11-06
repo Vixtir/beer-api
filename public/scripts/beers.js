@@ -120,6 +120,14 @@ class Beer{
   }
 
   onClick(e){
+    let oldOpen = Beer.getClickedElement();
+    if(oldOpen && oldOpen != this){
+      oldOpen.fullBeerInfo.classList.toggle('open', false);
+      oldOpen.beerElement.classList.toggle('open', false);
+      window.scrollTo(0, this.idx * 100 + 80);
+    }
+    Beer.setClickedElement(this);
+
     let promise = new Promise((resolve, reject) => {
       const url = `api/beer/${this.beerId}`;
       let request = new XMLHttpRequest();
@@ -144,6 +152,7 @@ class Beer{
         let elem = this.beerElement.querySelector('div.beer_full-info');
         elem.innerHTML += fullDescription;
         elem.classList.toggle('open');
+        this.beerElement.classList.toggle('open');
         return;
       })
     .catch( err => console.dir(err));
@@ -161,6 +170,14 @@ class Beer{
     this.beerElement.addEventListener('click', (e) => this.onClick(e))
     
     return this.beerElement;
+  }
+
+  static setClickedElement(params) {
+    Beer.clickedElement = params;
+  }
+
+  static getClickedElement() {
+    return Beer.clickedElement;
   }
 }
 
@@ -181,8 +198,9 @@ class Beers {
     return dataArray.map(this.createBeerElement);
   }
 
-  createBeerElement(beer){
+  createBeerElement(beer, i){
     const _beer = new Beer(beer);
+    _beer.idx = i;
     return _beer.render();
   }
 
@@ -198,28 +216,6 @@ class Beers {
       beerWrapper.appendChild(this.container);
     }
   }
-}
-
-function throtlle(f, ms = 1000){
-  let throttle = false;
-  let currentArgs;
-
-  function wrapper(){
-    if(throttle){
-      currentArgs = arguments;
-      return;
-    } else {
-      throtlle = true;
-      let timer = setTimeout(
-        () => { 
-          throttle = false;
-          f.apply(null, args);
-        }, 
-      ms);
-    }
-  }
-
-  return wrapper;
 }
 
 export default function searchBeer(value) {
