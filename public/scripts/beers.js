@@ -192,8 +192,6 @@ class Beers {
     this.addElement = this.addElement.bind(this);
   }
 
-
-
   fetchData(dataArray) {
     return dataArray.map(this.createBeerElement);
   }

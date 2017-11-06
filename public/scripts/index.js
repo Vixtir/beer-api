@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function(){
   searchBeer();
 });
 
-
 document.onscroll = function(e){
   let header = document.querySelector('div.bigHeader');
   let height = getComputedStyle(header).height;

@@ -76,7 +76,6 @@ document.addEventListener("DOMContentLoaded", function(){
   Object(__WEBPACK_IMPORTED_MODULE_0__beers__["a" /* default */])();
 });
 
-
 document.onscroll = function(e){
   let header = document.querySelector('div.bigHeader');
   let height = getComputedStyle(header).height;
@@ -320,8 +319,6 @@ class Beers {
     this.createBeerElement = this.createBeerElement.bind(this);
     this.addElement = this.addElement.bind(this);
   }
-
-
 
   fetchData(dataArray) {
     return dataArray.map(this.createBeerElement);
