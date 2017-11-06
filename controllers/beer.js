@@ -6,7 +6,7 @@ const {
 module.exports = function (app, db) {
 
   app.get('/api/beers', (req, res) => {
-    const LIMIT = 10;
+    const LIMIT = 12;
     let cb = (err, beers) => {
       err ? res.json(err)
           : res.json(beers)
