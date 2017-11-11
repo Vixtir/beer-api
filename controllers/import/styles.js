@@ -50,21 +50,19 @@ function importStyle(styles){
 }
 
 
-module.exports = function(app){
-    app.get('/import/styles', (req, res) => {
-      const apiUrl = `http://api.brewerydb.com/v2/styles?key=${brewApiKey}`
+module.exports = function(req, res){
+  const apiUrl = `http://api.brewerydb.com/v2/styles?key=${brewApiKey}`
 
-      let xhr = new XMLHttpRequest();
-      xhr.open('GET', apiUrl);
-      xhr.send();
+  let xhr = new XMLHttpRequest();
+  xhr.open('GET', apiUrl);
+  xhr.send();
 
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState == 4 && xhr.status == 200){
-          const data = JSON.parse(xhr.responseText).data;
-          importStyle(data)
-            .then(data => res.json({"message": `added: ${data.length}`}))
-            .catch(err => res.json({"message": err.message }))
-        }
-      }
-    })
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState == 4 && xhr.status == 200){
+      const data = JSON.parse(xhr.responseText).data;
+      importStyle(data)
+        .then(data => res.json({"message": `added: ${data.length}`}))
+        .catch(err => res.json({"message": err.message }))
+    }
+  }
 }

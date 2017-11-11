@@ -14,8 +14,7 @@ function importCategory(categories){
   return Promise.all(_categories.map(saveCategory));
 }
 
-module.exports = function(app){
-  app.get('/import/categories', (req, res) => {
+module.exports = function(req, res){
     const apiUrl = `http://api.brewerydb.com/v2/categories?key=${brewApiKey}`
 
     let xhr = new XMLHttpRequest();
@@ -30,5 +29,4 @@ module.exports = function(app){
           .catch(err => res.json({"message": err.message }))
       }
     }
-  })
 }

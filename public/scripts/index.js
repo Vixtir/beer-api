@@ -1,9 +1,5 @@
 import searchBeer from './beers';
 
-document.addEventListener("DOMContentLoaded", function(){
-  searchBeer();
-});
-
 document.onscroll = function(e){
   let header = document.querySelector('div.bigHeader');
   let height = getComputedStyle(header).height;
@@ -18,11 +14,14 @@ document.onscroll = function(e){
 
 let beerInput = document.querySelector('#beerNameInput');
 let newSearchBeer = myThrotlle(searchBeer, 500);
-beerInput.addEventListener('input', function(e){
-  let form = document.forms['beerForm'];
-  let beerName = form.elements['beerName'].value;
-  newSearchBeer(beerName);
-})
+
+if(beerInput){
+  beerInput.addEventListener('input', function(e){
+    let form = document.forms['beerForm'];
+    let beerName = form.elements['beerName'].value;
+    newSearchBeer(beerName);
+  })  
+}
 
 function myThrotlle(f, ms){
   var throttle = false,

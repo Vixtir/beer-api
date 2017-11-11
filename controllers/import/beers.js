@@ -66,10 +66,8 @@ function promiseRequests(){
   return Promise.all(pagesArray.map(makeRequest));
 }
 
-module.exports = function(app){
-  app.get('/import/beers', (req, res) => {
-    promiseRequests()
-      .then( result => res.json({"message": "added"}))
-      .catch( err => res.json({"message": err}))
-  })
+module.exports = function(req, res){
+  promiseRequests()
+  .then( result => res.json({"message": "added"}))
+  .catch( err => res.json({"message": err}))
 }
