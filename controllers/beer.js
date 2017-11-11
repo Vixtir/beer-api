@@ -1,37 +1,29 @@
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
-const {
-  beerModel
-} = require('../models/db.js');
+const { beerModel } = require('../models/db.js');
 
-module.exports = function (app, db) {
+exports.getBeerList = function(req, res){
+  const LIMIT = 12;
+  let cb = (err, beers) => {
+    err ? res.json(err)
+        : res.json(beers)
+  }
+  const result = req.query.name ? beerModel.searchByName(req.query.name, LIMIT, cb)
+                                : beerModel.search(LIMIT, cb);
+}
 
-  app.get('/api/beers', (req, res) => {
-    const LIMIT = 12;
-    let cb = (err, beers) => {
-      err ? res.json(err)
-          : res.json(beers)
+exports.deleteBeers = function(req, res){
+  const query = beerModel.where({})
+
+  query.remove(function (err, beers) {
+    err ? res.json(err) : res.json(beers); 
+  })
+}
+
+exports.getBeer = function(req, res){
+  const id = req.params.id;
+  let cb = (err, beer) => {
+    err ? res.json(err)
+        : res.json(beer)
     }
-    console.dir(req.query);
-    const result = req.query.name ? beerModel.searchByName(req.query.name, LIMIT, cb)
-                                  : beerModel.search(LIMIT, cb);
-  })
-
-  app.delete('/api/beers', (req, res) => {
-    const query = beerModel.where({})
-
-    query.remove(function (err, beers) {
-      if (err) res.json(err);
-
-      res.json(beers)
-    })
-  })
-
-  app.get('/api/beer/:id', (req, res) => {
-    const id = req.params.id;
-    let cb = (err, beer) => {
-      err ? res.json(err)
-          : res.json(beer)
-    }
-    const result = beerModel.searchById(id, cb);
-  })
+  const result = beerModel.searchById(id, cb);
 }

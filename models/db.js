@@ -15,5 +15,6 @@ db.once('open', function(){
 module.exports = {
   beerModel:     mongoose.model('Beer', schema.beerSchema),
   styleModel:    mongoose.model('Style', schema.styleSchema),
-  categoryModel: mongoose.model('Category', schema.categorySchema)
+  categoryModel: mongoose.model('Category', schema.categorySchema),
+  userModel:     mongoose.model('User', schema.userSchema),
 };

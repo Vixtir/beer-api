@@ -72,10 +72,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__beers__ = __webpack_require__(1);
 
 
-document.addEventListener("DOMContentLoaded", function(){
-  Object(__WEBPACK_IMPORTED_MODULE_0__beers__["a" /* default */])();
-});
-
 document.onscroll = function(e){
   let header = document.querySelector('div.bigHeader');
   let height = getComputedStyle(header).height;
@@ -90,11 +86,14 @@ document.onscroll = function(e){
 
 let beerInput = document.querySelector('#beerNameInput');
 let newSearchBeer = myThrotlle(__WEBPACK_IMPORTED_MODULE_0__beers__["a" /* default */], 500);
-beerInput.addEventListener('input', function(e){
-  let form = document.forms['beerForm'];
-  let beerName = form.elements['beerName'].value;
-  newSearchBeer(beerName);
-})
+
+if(beerInput){
+  beerInput.addEventListener('input', function(e){
+    let form = document.forms['beerForm'];
+    let beerName = form.elements['beerName'].value;
+    newSearchBeer(beerName);
+  })  
+}
 
 function myThrotlle(f, ms){
   var throttle = false,
