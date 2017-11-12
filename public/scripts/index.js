@@ -1,7 +1,7 @@
 import searchBeer from './beers';
-
+import css from '../styles/style.css'
 document.onscroll = function(e){
-  let header = document.querySelector('div.bigHeader');
+  let header = document.querySelector('div.header');
   let height = getComputedStyle(header).height;
   let scroll = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -12,13 +12,13 @@ document.onscroll = function(e){
   }
 }
 
-let beerInput = document.querySelector('#beerNameInput');
+let beerInput = document.querySelector('#beer-name');
 let newSearchBeer = myThrotlle(searchBeer, 500);
 
 if(beerInput){
   beerInput.addEventListener('input', function(e){
-    let form = document.forms['beerForm'];
-    let beerName = form.elements['beerName'].value;
+    let form = document.forms['search-form'];
+    let beerName = form.elements['beer-name'].value;
     newSearchBeer(beerName);
   })  
 }

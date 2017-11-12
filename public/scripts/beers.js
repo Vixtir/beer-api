@@ -1,5 +1,5 @@
-let beerWrapper = document.querySelector("#beerWrapper");
-let beerInput = document.querySelector('#beerNameInput');
+let beerWrapper = document.querySelector("#beer-list");
+let beerInput = document.querySelector('#beer-name');
 
 class Beer{
   constructor(props){

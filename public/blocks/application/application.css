@@ -1,0 +1,15 @@
+.application {
+  width: 100%
+}
+
+.application__header {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.application__beer-list {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
