@@ -60,17 +60,99 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__beers__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__styles_style_css__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__beers__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__styles_style_css__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__styles_style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__styles_style_css__);
 
 
@@ -122,7 +204,7 @@ function myThrotlle(f, ms){
 }
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -132,12 +214,12 @@ let beerInput = document.querySelector('#beer-name');
 
 class Beer{
   constructor(props){
-    this.beerElement    = this.createMainBeerElement('div', 'beer');
-    this.beerImage      = this.createBeerImage('img', 'beer_image', props.labels);
-    this.beerInfo       = this.createBeerInformationElement('div', 'beer_information');
-    this.beerName       = this.createBeerNameElement('span', 'beer_name', props.name);
-    this.beerCommonInfo = this.createCommonInfoElement('div', 'beer_common-info', props);
-    this.fullBeerInfo   = this.createFullBeerInfoElement('div', 'beer_full-info');
+    this.beerElement    = this.createMainBeerElement('div', 'beer beer-list__beer');
+    this.beerImage      = this.createBeerImage('img', 'beer__image', props.labels);
+    this.beerInfo       = this.createBeerInformationElement('div', 'beer__information');
+    this.beerName       = this.createBeerNameElement('span', 'beer__title', props.name);
+    this.beerCommonInfo = this.createCommonInfoElement('div', 'beer__common-info', props);
+    this.fullBeerInfo   = this.createFullBeerInfoElement('div', 'beer__full-info');
     this.beerId = props._id;
     this.createMetricElement = this.createMetricElement.bind(this);
   }
@@ -173,34 +255,34 @@ class Beer{
 
   createBeerNameElement(node,className, name){
     let elem = document.createElement(node);
-    elem.innerHTML = name;
+    elem.innerText = name;
     elem.className = className;
     return elem;
   };
 
   createMetricElement({name,style}){
     let beer_metric = document.createElement('span');
-    beer_metric.className = 'beer-metric';
+    beer_metric.className = 'beer__metric';
   
     let metric_name = document.createElement('span');
-    metric_name.className = 'beer_metric-name';
-    metric_name.innerHTML = `${name}: `;
+    metric_name.className = 'beer__metric-name';
+    metric_name.innerText = `${name}: `;
   
     let metric_data = document.createElement('span');
-    metric_data.className = 'beer_metric-data';
+    metric_data.className = 'beer__metric-data';
   
     switch (name) {
       case 'abv':
-        metric_data.innerHTML = `${style.abvMin || ''} - ${style.abvMax || ''}`;
+        metric_data.innerText = `${style.abvMin || ''} - ${style.abvMax || ''}`;
         break;
       case 'ibu':
-        metric_data.innerHTML = `${style.ibuMin || ''} - ${style.ibuMax || ''}`;
+        metric_data.innerText = `${style.ibuMin || ''} - ${style.ibuMax || ''}`;
         break;
       case 'og':
-        metric_data.innerHTML = `${style.ogMin || ''}`;
+        metric_data.innerText = `${style.ogMin || ''}`;
         break;
       case 'srm':
-        metric_data.innerHTML = `${style.srmMin || ''} - ${style.srmMax || ''}`;
+        metric_data.innerText = `${style.srmMin || ''} - ${style.srmMax || ''}`;
         break;
       default:
         break;
@@ -278,10 +360,10 @@ class Beer{
     promise
     .then( beer => {
         let fullDescription = this.createFullDescription(beer);
-        let elem = this.beerElement.querySelector('div.beer_full-info');
-        elem.innerHTML += fullDescription;
-        elem.classList.toggle('open');
-        this.beerElement.classList.toggle('open');
+        let elem = this.beerElement.querySelector('div.beer__full-info');
+        elem.innerText = fullDescription;
+        elem.classList.toggle('beer__full-info--opened');
+        this.beerElement.classList.toggle('beer__full-info--opened');
         return;
       })
     .catch( err => console.dir(err));
@@ -371,11 +453,11 @@ function searchBeer(value) {
   promise
     .then( beers => {
       if(beers.length){
-        beerWrapper.innerHTML = ""
+        beerWrapper.innerText = ""
         const beerList = new Beers(beers);
         beerList.render(beerWrapper);
       } else {
-        beerWrapper.innerHTML = "Beers not found :c"
+        beerWrapper.innerText = "Beers not found :c"
       } 
     })
     .catch( err => {
@@ -384,13 +466,13 @@ function searchBeer(value) {
 };
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(3);
+var content = __webpack_require__(4);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -398,7 +480,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(5)(content, options);
+var update = __webpack_require__(10)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -415,14 +497,15 @@ if(false) {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(undefined);
+exports = module.exports = __webpack_require__(0)(undefined);
 // imports
+exports.i(__webpack_require__(5), "");
+exports.i(__webpack_require__(6), "");
 exports.i(__webpack_require__(7), "");
 exports.i(__webpack_require__(8), "");
-exports.i(__webpack_require__(9), "");
 
 // module
 exports.push([module.i, "* {\n  margin: 0;\n  box-sizing: border-box;\n}", ""]);
@@ -431,89 +514,77 @@ exports.push([module.i, "* {\n  margin: 0;\n  box-sizing: border-box;\n}", ""]);
 
 
 /***/ }),
-/* 4 */
-/***/ (function(module, exports) {
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
+exports = module.exports = __webpack_require__(0)(undefined);
+// imports
 
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
 
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
+// module
+exports.push([module.i, ".application {\n  width: 100%\n}\n\n.application__header {\n  width: 100%;\n  max-width: 960px;\n  margin: 0 auto;\n}\n\n.application__beer-list {\n  width: 100%;\n  max-width: 960px;\n  margin: 0 auto;\n}\n\n@media screen and (max-width: 944px) {\n  .application__beer-list {\n    max-width: 660px;\n  }\n}\n\n@media screen and (max-width: 620px) {\n  .application__beer-list {\n    max-width: 320px;\n  }\n}", ""]);
 
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
+// exports
 
 
 /***/ }),
-/* 5 */
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".header {\n  min-width: 320px;\n  text-align: center;\n  background: rgba(62, 47, 47, 0.89);\n}\n\n.header__title {\n  font-size: 4em;\n  color: rgba(249, 238, 30, 0.85);\n}\n\n.header__title--center {\n  margin: 0 auto;\n}\n\n.header__search-form {\n  padding: 10px;\n}\n\n@media screen and (max-width: 944px) {\n  .header__title {\n    font-size: 2em;\n  }\n}\n\n@media screen and (max-width: 620px) {\n  \n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".search-form__input {\n  color: white;\n  line-height: 24px;\n  font-size: 24px;\n  background: rgba(25, 25, 25, 0.5);\n  border: none;\n  border-bottom: black 2px solid;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(undefined);
+// imports
+exports.i(__webpack_require__(9), "");
+
+// module
+exports.push([module.i, ".beer-list__beer {\n  width: 31.25%;\n  min-width: 300px;\n  max-height: 250px;\n  margin-top: 10px;\n  margin-left: 1.5625%;\n  float: left;\n}\n\n.beer-list__beer:nth-child(3n+1){\n  clear: left;\n}\n\n@media screen and (max-width: 944px) {\n  .beer-list__beer:nth-child(3n+1){\n    clear: none;\n  }\n\n  .beer-list__beer:nth-child(2n+1){\n    clear: left;\n  }\n}\n\n@media screen and (max-width: 620px) {\n  \n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(0)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, ".beer {\n  overflow: hidden;\n}\n\n.beer__information {\n  margin-left: 33.3333333333%;\n  width: 66.6666666667%;\n  min-width: 200px;\n}\n\n.beer__title {\n  display: inline-block;\n  height: 50px;\n  font-weight: bold;\n}\n\n.beer__image {\n  height: 90px;\n  padding: 5px;\n  width: 30%;\n  border: 1px solid black;\n  float: left;\n}\n\n.beer__common-info {\n  width: 100%;\n}\n\n.beer__full-info {\n  text-align: left;\n  overflow: auto;\n  height: 0px;\n  opacity: 0;\n  clear: both;\n  padding: 2px 4px;\n  transition: height 50ms ease-in;\n}\n\n.beer__full-info--opened {\n    height: 300px;\n    opacity: 1;\n}\n\n.beer__metric {\n  display: inline-block;\n  width: 50%;\n  font-size: small;\n}\n\n.beer__metric-name {\n  display: inline-block;\n  width: 25%;\n  text-align: right;\n  font-weight: bold;\n}\n\n.beer__metric-data {\n  display: inline-block;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -569,7 +640,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(6);
+var	fixUrls = __webpack_require__(11);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -885,7 +956,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 6 */
+/* 11 */
 /***/ (function(module, exports) {
 
 
@@ -977,48 +1048,6 @@ module.exports = function (css) {
 	// send back the fixed css
 	return fixedCss;
 };
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(4)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".application {\n  width: 100%\n}\n\n.application__header {\n  width: 100%;\n  max-width: 960px;\n  margin: 0 auto;\n}\n\n.application__beer-list {\n  width: 100%;\n  max-width: 960px;\n  margin: 0 auto;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(4)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".header {\n  text-align: center;\n  background: rgba(62, 47, 47, 0.89);\n}\n\n.header__title {\n  font-size: 5vw;\n  color: rgba(249, 238, 30, 0.85);\n}\n\n.header__title--center {\n  margin: 0 auto;\n}\n\n.header__search-form {\n  padding: 10px;\n}", ""]);
-
-// exports
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(4)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".search-form__input {\n  color: white;\n  line-height: 2vw;\n  font-size: 1.5vw;\n  background: rgba(25, 25, 25, 0.5);\n  border: none;\n  border-bottom: black 2px solid;\n}", ""]);
-
-// exports
 
 
 /***/ })

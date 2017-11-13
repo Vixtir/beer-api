@@ -1,7 +1,7 @@
 .search-form__input {
   color: white;
-  line-height: 2vw;
-  font-size: 1.5vw;
+  line-height: 24px;
+  font-size: 24px;
   background: rgba(25, 25, 25, 0.5);
   border: none;
   border-bottom: black 2px solid;

@@ -1,7 +1,7 @@
 @import "../blocks/application/application.css";
 @import "../blocks/header/header.css";
 @import "../blocks/search-form/search-form.css";
-
+@import "../blocks/beer-list/beer-list.css";
 * {
   margin: 0;
   box-sizing: border-box;

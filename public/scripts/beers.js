@@ -3,12 +3,12 @@ let beerInput = document.querySelector('#beer-name');
 
 class Beer{
   constructor(props){
-    this.beerElement    = this.createMainBeerElement('div', 'beer');
-    this.beerImage      = this.createBeerImage('img', 'beer_image', props.labels);
-    this.beerInfo       = this.createBeerInformationElement('div', 'beer_information');
-    this.beerName       = this.createBeerNameElement('span', 'beer_name', props.name);
-    this.beerCommonInfo = this.createCommonInfoElement('div', 'beer_common-info', props);
-    this.fullBeerInfo   = this.createFullBeerInfoElement('div', 'beer_full-info');
+    this.beerElement    = this.createMainBeerElement('div', 'beer beer-list__beer');
+    this.beerImage      = this.createBeerImage('img', 'beer__image', props.labels);
+    this.beerInfo       = this.createBeerInformationElement('div', 'beer__information');
+    this.beerName       = this.createBeerNameElement('span', 'beer__title', props.name);
+    this.beerCommonInfo = this.createCommonInfoElement('div', 'beer__common-info', props);
+    this.fullBeerInfo   = this.createFullBeerInfoElement('div', 'beer__full-info');
     this.beerId = props._id;
     this.createMetricElement = this.createMetricElement.bind(this);
   }
@@ -44,34 +44,34 @@ class Beer{
 
   createBeerNameElement(node,className, name){
     let elem = document.createElement(node);
-    elem.innerHTML = name;
+    elem.innerText = name;
     elem.className = className;
     return elem;
   };
 
   createMetricElement({name,style}){
     let beer_metric = document.createElement('span');
-    beer_metric.className = 'beer-metric';
+    beer_metric.className = 'beer__metric';
   
     let metric_name = document.createElement('span');
-    metric_name.className = 'beer_metric-name';
-    metric_name.innerHTML = `${name}: `;
+    metric_name.className = 'beer__metric-name';
+    metric_name.innerText = `${name}: `;
   
     let metric_data = document.createElement('span');
-    metric_data.className = 'beer_metric-data';
+    metric_data.className = 'beer__metric-data';
   
     switch (name) {
       case 'abv':
-        metric_data.innerHTML = `${style.abvMin || ''} - ${style.abvMax || ''}`;
+        metric_data.innerText = `${style.abvMin || ''} - ${style.abvMax || ''}`;
         break;
       case 'ibu':
-        metric_data.innerHTML = `${style.ibuMin || ''} - ${style.ibuMax || ''}`;
+        metric_data.innerText = `${style.ibuMin || ''} - ${style.ibuMax || ''}`;
         break;
       case 'og':
-        metric_data.innerHTML = `${style.ogMin || ''}`;
+        metric_data.innerText = `${style.ogMin || ''}`;
         break;
       case 'srm':
-        metric_data.innerHTML = `${style.srmMin || ''} - ${style.srmMax || ''}`;
+        metric_data.innerText = `${style.srmMin || ''} - ${style.srmMax || ''}`;
         break;
       default:
         break;
@@ -149,10 +149,10 @@ class Beer{
     promise
     .then( beer => {
         let fullDescription = this.createFullDescription(beer);
-        let elem = this.beerElement.querySelector('div.beer_full-info');
-        elem.innerHTML += fullDescription;
-        elem.classList.toggle('open');
-        this.beerElement.classList.toggle('open');
+        let elem = this.beerElement.querySelector('div.beer__full-info');
+        elem.innerText = fullDescription;
+        elem.classList.toggle('beer__full-info--opened');
+        this.beerElement.classList.toggle('beer__full-info--opened');
         return;
       })
     .catch( err => console.dir(err));
@@ -242,11 +242,11 @@ export default function searchBeer(value) {
   promise
     .then( beers => {
       if(beers.length){
-        beerWrapper.innerHTML = ""
+        beerWrapper.innerText = ""
         const beerList = new Beers(beers);
         beerList.render(beerWrapper);
       } else {
-        beerWrapper.innerHTML = "Beers not found :c"
+        beerWrapper.innerText = "Beers not found :c"
       } 
     })
     .catch( err => {

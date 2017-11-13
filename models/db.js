@@ -1,6 +1,9 @@
-const mongoose = require('mongoose');
-const schema   = require('./schema.js'); 
-
+const mongoose        = require('mongoose');
+const beerSchema      = require('./Beer.js');
+const labelSchema     = require('./Label.js');
+const styleSchema     = require('./Style.js');
+const categorySchema  = require('./Category.js');
+const userSchema      = require('./User.js');
 const url = 'mongodb://localhost:27017/myproject';
 
 mongoose.connect(url);
@@ -13,8 +16,8 @@ db.once('open', function(){
 })
 
 module.exports = {
-  beerModel:     mongoose.model('Beer', schema.beerSchema),
-  styleModel:    mongoose.model('Style', schema.styleSchema),
-  categoryModel: mongoose.model('Category', schema.categorySchema),
-  userModel:     mongoose.model('User', schema.userSchema),
+  beerModel:     mongoose.model('Beer', beerSchema),
+  styleModel:    mongoose.model('Style', styleSchema),
+  categoryModel: mongoose.model('Category', categorySchema),
+  userModel:     mongoose.model('User', userSchema),
 };
