@@ -1,0 +1,28 @@
+@import "../beer/beer.css";
+
+.beer-list__beer {
+  width: 31.25%;
+  min-width: 300px;
+  max-height: 250px;
+  margin-top: 10px;
+  margin-left: 1.5625%;
+  float: left;
+}
+
+.beer-list__beer:nth-child(3n+1){
+  clear: left;
+}
+
+@media screen and (max-width: 944px) {
+  .beer-list__beer:nth-child(3n+1){
+    clear: none;
+  }
+
+  .beer-list__beer:nth-child(2n+1){
+    clear: left;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  
+}

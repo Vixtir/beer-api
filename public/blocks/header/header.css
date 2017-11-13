@@ -1,0 +1,28 @@
+.header {
+  min-width: 320px;
+  text-align: center;
+  background: rgba(62, 47, 47, 0.89);
+}
+
+.header__title {
+  font-size: 4em;
+  color: rgba(249, 238, 30, 0.85);
+}
+
+.header__title--center {
+  margin: 0 auto;
+}
+
+.header__search-form {
+  padding: 10px;
+}
+
+@media screen and (max-width: 944px) {
+  .header__title {
+    font-size: 2em;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  
+}
