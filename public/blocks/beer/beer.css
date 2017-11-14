@@ -1,59 +1,13 @@
+@import '__common-info/beer__common-info.css';
+@import '__full-info/beer__full-info.css';
+@import '__image/beer__image.css';
+@import '__metric/beer__metric.css';
+@import '__metric-data/beer__metric-data.css';
+@import '__metric-name/beer__metric-name.css';
+@import '__title/beer__title.css';
+@import '__information/beer_information.css';
+
 .beer {
   overflow: hidden;
 }
 
-.beer__information {
-  margin-left: 33.3333333333%;
-  width: 66.6666666667%;
-  min-width: 200px;
-}
-
-.beer__title {
-  display: inline-block;
-  height: 50px;
-  font-weight: bold;
-}
-
-.beer__image {
-  height: 90px;
-  padding: 5px;
-  width: 30%;
-  border: 1px solid black;
-  float: left;
-}
-
-.beer__common-info {
-  width: 100%;
-}
-
-.beer__full-info {
-  text-align: left;
-  overflow: auto;
-  height: 0px;
-  opacity: 0;
-  clear: both;
-  padding: 2px 4px;
-  transition: height 50ms ease-in;
-}
-
-.beer__full-info--opened {
-    height: 300px;
-    opacity: 1;
-}
-
-.beer__metric {
-  display: inline-block;
-  width: 50%;
-  font-size: small;
-}
-
-.beer__metric-name {
-  display: inline-block;
-  width: 25%;
-  text-align: right;
-  font-weight: bold;
-}
-
-.beer__metric-data {
-  display: inline-block;
-}

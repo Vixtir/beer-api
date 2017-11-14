@@ -2,13 +2,13 @@ import searchBeer from './beers';
 import css from '../styles/style.css'
 document.onscroll = function(e){
   let header = document.querySelector('div.header');
+  let searchForm = header.querySelector('.search-form');
   let height = getComputedStyle(header).height;
   let scroll = window.pageYOffset || document.documentElement.scrollTop;
-
-  if(scroll > parseInt(height)/2){
-    header.classList.toggle('fixed', true)
+  if(scroll > 50){
+    searchForm.classList.add('header__search-form--fixed');
   } else {
-    header.classList.toggle('fixed', false)
+    searchForm.classList.remove('header__search-form--fixed');
   }
 }
 

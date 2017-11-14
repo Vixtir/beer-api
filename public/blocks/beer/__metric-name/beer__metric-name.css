@@ -1,0 +1,6 @@
+.beer__metric-name {
+  display: inline-block;
+  width: 25%;
+  text-align: right;
+  font-weight: bold;
+}
