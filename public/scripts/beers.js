@@ -9,8 +9,15 @@ class Beer{
     this.beerName       = this.createBeerNameElement('span', 'beer__title', props.name);
     this.beerCommonInfo = this.createCommonInfoElement('div', 'beer__common-info', props);
     this.fullBeerInfo   = this.createFullBeerInfoElement('div', 'beer__full-info');
+    this.fullBeerInfo   = this.createUnderlineElement('div', 'beer__underline');
     this.beerId = props._id;
     this.createMetricElement = this.createMetricElement.bind(this);
+  }
+
+  createUnderlineElement(node, className){
+    let elem = document.createElement(node);
+    elem.className = className;
+    return elem;
   }
 
   createMainBeerElement(node, className){

@@ -1,59 +1,29 @@
+@import '__common-info/beer__common-info.css';
+@import '__full-info/beer__full-info.css';
+@import '__image/beer__image.css';
+@import '__metric/beer__metric.css';
+@import '__metric-data/beer__metric-data.css';
+@import '__metric-name/beer__metric-name.css';
+@import '__title/beer__title.css';
+@import '__information/beer_information.css';
+
 .beer {
+  position: relative;
   overflow: hidden;
 }
 
-.beer__information {
-  margin-left: 33.3333333333%;
-  width: 66.6666666667%;
-  min-width: 200px;
+.beer__underline {
+  height: 2px;
+  position: relative;
+  left: -100%;
+  clear: left;
+  background: -moz-linear-gradient(-45deg, rgba(255,145,20,1) 0%, rgba(255,145,20,0.93) 7%, rgba(241,244,41,0.69) 31%, rgba(242,242,125,0.25) 74%, rgba(237,237,237,0.09) 90%, rgba(237,237,237,0) 99%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, rgba(255,145,20,1) 0%,rgba(255,145,20,0.93) 7%,rgba(241,244,41,0.69) 31%,rgba(242,242,125,0.25) 74%,rgba(237,237,237,0.09) 90%,rgba(237,237,237,0) 99%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, rgba(255,145,20,1) 0%,rgba(255,145,20,0.93) 7%,rgba(241,244,41,0.69) 31%,rgba(242,242,125,0.25) 74%,rgba(237,237,237,0.09) 90%,rgba(237,237,237,0) 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */;
+  transition: left 1s ease-out;
 }
 
-.beer__title {
-  display: inline-block;
-  height: 50px;
-  font-weight: bold;
-}
-
-.beer__image {
-  height: 90px;
-  padding: 5px;
-  width: 30%;
-  border: 1px solid black;
-  float: left;
-}
-
-.beer__common-info {
-  width: 100%;
-}
-
-.beer__full-info {
-  text-align: left;
-  overflow: auto;
-  height: 0px;
-  opacity: 0;
-  clear: both;
-  padding: 2px 4px;
-  transition: height 50ms ease-in;
-}
-
-.beer__full-info--opened {
-    height: 300px;
-    opacity: 1;
-}
-
-.beer__metric {
-  display: inline-block;
-  width: 50%;
-  font-size: small;
-}
-
-.beer__metric-name {
-  display: inline-block;
-  width: 25%;
-  text-align: right;
-  font-weight: bold;
-}
-
-.beer__metric-data {
-  display: inline-block;
+.beer:hover .beer__underline{
+  left: 0;
+  /* border-bottom: 2px rgba(44, 254, 0, 0.55) solid; */
 }

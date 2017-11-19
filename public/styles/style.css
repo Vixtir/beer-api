@@ -2,7 +2,12 @@
 @import "../blocks/header/header.css";
 @import "../blocks/search-form/search-form.css";
 @import "../blocks/beer-list/beer-list.css";
+@import "../blocks/beer/beer.css";
+@import "../blocks/login-form/login-form.css";
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
 * {
+  font-family: 'Lato', sans-serif;
   margin: 0;
   box-sizing: border-box;
 }

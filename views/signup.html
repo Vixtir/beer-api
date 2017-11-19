@@ -28,7 +28,7 @@
     e.preventDefault();
     const name  = form.querySelector('input#name').value;
     const pswd = form.querySelector('input#password').value;
-    console.dir(name && pswd)
+
     if(name && pswd){
       let body = `name=${encodeURIComponent(name)}&pswd=${encodeURIComponent(pswd)}`;
       let request = new XMLHttpRequest();

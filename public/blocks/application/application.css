@@ -1,27 +1,6 @@
+@import '__header/application__header.css';
+@import '__beer-list/application__beer-list.css';
+
 .application {
   width: 100%
-}
-
-.application__header {
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-}
-
-.application__beer-list {
-  width: 100%;
-  max-width: 960px;
-  margin: 0 auto;
-}
-
-@media screen and (max-width: 944px) {
-  .application__beer-list {
-    max-width: 660px;
-  }
-}
-
-@media screen and (max-width: 620px) {
-  .application__beer-list {
-    max-width: 320px;
-  }
 }

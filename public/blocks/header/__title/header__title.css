@@ -1,0 +1,9 @@
+.header__title {
+  display: inline-block;
+  font-size: 4em;
+  color: black
+}
+
+.header__title--center {
+  margin: 0 auto;
+}

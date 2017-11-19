@@ -1,0 +1,14 @@
+.beer__full-info {
+  text-align: left;
+  overflow: auto;
+  height: 0px;
+  opacity: 0;
+  clear: both;
+  padding: 2px 4px;
+  transition: height 50ms ease-in;
+}
+
+.beer__full-info--opened {
+  height: 300px;
+  opacity: 1;
+}

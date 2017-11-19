@@ -1,25 +1,32 @@
+@import '__title/header__title.css';
+
 .header {
   min-width: 320px;
+  min-height: 120px;
   text-align: center;
-  background: rgba(62, 47, 47, 0.89);
+  background-image: url('/images/back.jpg');
+  background-size: cover;
+  background-position-y: 20%;
 }
 
-.header__title {
-  font-size: 4em;
-  color: rgba(249, 238, 30, 0.85);
-}
-
-.header__title--center {
-  margin: 0 auto;
-}
 
 .header__search-form {
   padding: 10px;
 }
 
+.header__search-form--fixed {
+  position: fixed;
+  top:0; left:0;
+  width: 100%;
+}
+
 @media screen and (max-width: 944px) {
   .header__title {
     font-size: 2em;
+  }
+
+  .header {
+    min-height: 100px;
   }
 }
 
