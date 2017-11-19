@@ -4,7 +4,9 @@
   min-width: 320px;
   min-height: 120px;
   text-align: center;
-  background: rgba(62, 47, 47, 0.89);
+  background-image: url('/images/back.jpg');
+  background-size: cover;
+  background-position-y: 20%;
 }
 
 
@@ -13,7 +15,6 @@
 }
 
 .header__search-form--fixed {
-  background: rgba(62, 47, 47, 0.89);  
   position: fixed;
   top:0; left:0;
   width: 100%;
@@ -22,6 +23,10 @@
 @media screen and (max-width: 944px) {
   .header__title {
     font-size: 2em;
+  }
+
+  .header {
+    min-height: 100px;
   }
 }
 
