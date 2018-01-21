@@ -70,8 +70,11 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__beers__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__styles_style_css__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__styles_style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__styles_style_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blocks_modal_modal_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__styles_style_css__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__styles_style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__styles_style_css__);
+
+
 
 
 document.onscroll = function(e){
@@ -79,7 +82,7 @@ document.onscroll = function(e){
   let searchForm = header.querySelector('.search-form');
   let height = getComputedStyle(header).height;
   let scroll = window.pageYOffset || document.documentElement.scrollTop;
-  if(scroll > 50){
+  if(scroll > 45){
     searchForm.classList.add('header__search-form--fixed');
   } else {
     searchForm.classList.remove('header__search-form--fixed');
@@ -107,7 +110,7 @@ function myThrotlle(f, ms){
       return;
     } 
     
-    throttle = true;            
+    throttle = true;
     f.apply(null, arguments);
 
     setTimeout(
@@ -186,28 +189,31 @@ class Beer{
   };
 
   createMetricElement({name,style}){
+    let metricsBlock = document.createElement('div');
+    metricsBlock.className = 'metrics';
+
     let beer_metric = document.createElement('span');
-    beer_metric.className = 'beer__metric';
+    beer_metric.className = 'beer__mertric metrics__metric';
   
     let metric_name = document.createElement('span');
-    metric_name.className = 'beer__metric-name';
+    metric_name.className = 'metrics__name metrics__name--beer';
     metric_name.innerText = `${name}: `;
   
     let metric_data = document.createElement('span');
-    metric_data.className = 'beer__metric-data';
+    metric_data.className = 'metric__data';
   
     switch (name) {
-      case 'abv':
-        metric_data.innerText = `${style.abvMin || ''} - ${style.abvMax || ''}`;
+      case 'ABV':
+        metric_data.innerText = `${style.abvMin || ''}-${style.abvMax || ''}`;
         break;
-      case 'ibu':
-        metric_data.innerText = `${style.ibuMin || ''} - ${style.ibuMax || ''}`;
+      case 'IBU':
+        metric_data.innerText = `${style.ibuMin || ''}-${style.ibuMax || ''}`;
         break;
-      case 'og':
-        metric_data.innerText = `${style.ogMin || ''}`;
+      case 'OG':
+        metric_data.innerText = `${style.ogMin || '-'}`;
         break;
-      case 'srm':
-        metric_data.innerText = `${style.srmMin || ''} - ${style.srmMax || ''}`;
+      case 'SRM':
+        metric_data.innerText = `${style.srmMin || ''}-${style.srmMax || ''}`;
         break;
       default:
         break;
@@ -222,19 +228,19 @@ class Beer{
     let elem = document.createElement(node);
     const _beerData = Object.assign({}, beerData);
     const metrics = [{
-        name: 'abv',
+        name: 'ABV',
         style: _beerData.style
       },
       {
-        name: 'ibu',
+        name: 'IBU',
         style: _beerData.style
       },
       {
-        name: 'og',
+        name: 'OG',
         style: _beerData.style
       },
       {
-        name: 'srm',
+        name: 'SRM',
         style: _beerData.style
       }
     ];
@@ -248,31 +254,14 @@ class Beer{
     return elem;
   }
 
-  createFullDescription(beer){
-    let result;
-    let _beer = Object.assign({}, beer);
-    result = _beer.style.description;
-    return result;
-  }
-
   onClick(e){
-    let oldOpen = Beer.getClickedElement();
-    if(oldOpen && oldOpen != this){
-      oldOpen.fullBeerInfo.classList.toggle('open', false);
-      oldOpen.beerElement.classList.toggle('open', false);
-      window.scrollTo(0, this.idx * 100 + 80);
-    }
-    Beer.setClickedElement(this);
-
     let promise = new Promise((resolve, reject) => {
-      const url = `api/beer/${this.beerId}`;
       let request = new XMLHttpRequest();
-      request.open('GET', url);
+      request.open('GET', `api/beerModal/${this.beerId}`);
       request.send();
-    
       request.onreadystatechange = () => {
         if (request.readyState == 4 && request.status == 200) {
-          let response = JSON.parse(request.responseText);
+          let response = request.responseText;
           if (response) {
             resolve(response)
           } else {
@@ -283,16 +272,16 @@ class Beer{
     })
 
     promise
-    .then( beer => {
-        let fullDescription = this.createFullDescription(beer);
-        let elem = this.beerElement.querySelector('div.beer__full-info');
-        elem.innerText = fullDescription;
-        elem.classList.toggle('beer__full-info--opened');
-        this.beerElement.classList.toggle('beer__full-info--opened');
+    .then( html => {
+        let modal = document.getElementById('modal');
+        let body  = document.body;
+        modal ? modal.innerHTML = html : null;
+        modal.classList.toggle('modal--close');
+        body.classList.toggle('body--fixed');
         return;
       })
     .catch( err => console.dir(err));
-}
+  }
   
   render(){
     this.beerElement.appendChild(this.beerImage);
@@ -306,14 +295,6 @@ class Beer{
     this.beerElement.addEventListener('click', (e) => this.onClick(e))
     
     return this.beerElement;
-  }
-
-  static setClickedElement(params) {
-    Beer.clickedElement = params;
-  }
-
-  static getClickedElement() {
-    return Beer.clickedElement;
   }
 }
 
@@ -392,6 +373,30 @@ function searchBeer(value) {
 
 /***/ }),
 /* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony default export */ var _unused_webpack_default_export = ((function(){
+  let modalWindow = document.getElementById('modal');
+  let body = document.body;
+  modalWindow.addEventListener('click', closeModal);
+  
+  function closeModal(e){
+    const target = e.target;
+
+    if(modalWindow && target.id == 'modal-overlay' || target.id == 'modal__button' ){
+      while(modalWindow.firstChild){
+        modalWindow.removeChild(modalWindow.firstChild)
+      }
+       modalWindow.classList.toggle('modal--close');
+       body.classList.toggle('body--fixed');
+    }
+  }
+})());
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -1,0 +1,17 @@
+- var organicSrc = './images/f-leaf.svg';
+.modal__overlay#modal-overlay
+  .modal__body
+    i.modal__button.material-icons#modal__button clear
+    .modal__beer-name #{beerName}
+    .modal__beer-category #{beerCategory}
+    .properties
+      .properties__prop
+        span.properties__name Organic: 
+        img.properties__image(src=`${organicSrc}` alt='isOrganic')
+    .metrics
+      each val, index in prop
+        .metrics__metric.modal__mertric
+          span.metrics__name--modal=index + ': '
+          span.metrics__data=val
+
+    .modal__beer-desc #{beerDesc}

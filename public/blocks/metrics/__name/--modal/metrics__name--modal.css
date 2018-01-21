@@ -1,0 +1,9 @@
+.metrics__name--modal {
+  text-align: left;
+}
+
+@media screen and (max-width: 320px){
+  .metrics__name--modal {
+    display: block;
+  }
+}

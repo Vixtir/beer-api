@@ -1,0 +1,7 @@
+@import '__prop/properties__prop.css';
+@import '__name/properties__name.css';
+@import '__image/properties__image.css';
+@import '__text/properties__text.css';
+.properties {
+  margin: 5px 0;
+}

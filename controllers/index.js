@@ -14,6 +14,8 @@ module.exports = function(app, db){
 
   app.route('/api/beer/:id')
     .get(beer.getBeer);
+  app.route('/api/beerModal/:id')
+    .get(beer.getModalBeer);  
   app.route('import/beers')
     .post(user.requireLogin, importBeers)
   //Category

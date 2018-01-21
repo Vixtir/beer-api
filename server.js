@@ -1,13 +1,15 @@
 const express         = require('express');
 const bodyParser      = require('body-parser');
-const XMLHttpRequest  = require("xmlhttprequest").XMLHttpRequest;
 const path            = require('path');
 const routes          = require('./controllers/index.js');
 const db              = require('./models/db.js')
 const jwt             = require("jsonwebtoken");
 const { jwtSecret }   = require("./config.js").secret;
+
 const port            = 3000;
 const app             = express();
+
+app.set('view engine', 'pug')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
