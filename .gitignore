@@ -2,3 +2,5 @@ config.js
 /node_modules
 *.log
 **/dist
+.vscode/
+public/dist/**
