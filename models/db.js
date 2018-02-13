@@ -6,6 +6,7 @@ const categorySchema  = require('./Category.js');
 const userSchema      = require('./User.js');
 const url = 'mongodb://localhost:27017/myproject';
 
+mongoose.Promise = require('bluebird');
 mongoose.connect(url);
 let db = mongoose.createConnection(url, {promiseLibrary: global.Promise});
 

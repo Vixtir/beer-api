@@ -1,0 +1,16 @@
+.admin-panel__button {
+  height: 40px;
+  width: 120px;
+  margin: 5px;
+  padding: 5px;
+  display: inline-block;
+  background-color: brown;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.admin-panel__button:hover {
+  box-shadow: 0 0 5px black;
+}

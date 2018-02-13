@@ -1,5 +1,5 @@
-let beerWrapper = document.querySelector("#beer-list");
-let beerInput = document.querySelector('#beer-name');
+const beerWrapper = document.querySelector("#beer-list");
+const beerInput = document.querySelector('#beer-name');
 
 class Beer{
   constructor(props){
@@ -15,19 +15,19 @@ class Beer{
   }
 
   createUnderlineElement(node, className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   }
 
   createMainBeerElement(node, className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   }
 
   createBeerImage(node, className, beerLabels){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
   
     beerLabels && beerLabels.medium ?
       elem.src = beerLabels.medium :
@@ -38,47 +38,50 @@ class Beer{
   };
 
   createBeerInformationElement (node,className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   };
 
   createFullBeerInfoElement (node,className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   };
 
   createBeerNameElement(node,className, name){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.innerText = name;
     elem.className = className;
     return elem;
   };
 
   createMetricElement({name,style}){
-    let beer_metric = document.createElement('span');
-    beer_metric.className = 'beer__metric';
+    const metricsBlock = document.createElement('div');
+    metricsBlock.className = 'metrics';
+
+    const beer_metric = document.createElement('span');
+    beer_metric.className = 'beer__mertric metrics__metric';
   
-    let metric_name = document.createElement('span');
-    metric_name.className = 'beer__metric-name';
+    const metric_name = document.createElement('span');
+    metric_name.className = 'metrics__name metrics__name--beer';
     metric_name.innerText = `${name}: `;
   
-    let metric_data = document.createElement('span');
-    metric_data.className = 'beer__metric-data';
+    const metric_data = document.createElement('span');
+    metric_data.className = 'metric__data';
   
     switch (name) {
-      case 'abv':
-        metric_data.innerText = `${style.abvMin || ''} - ${style.abvMax || ''}`;
+      case 'ABV':
+        metric_data.innerText = `${style.abvMin || ''}-${style.abvMax || ''}`;
         break;
-      case 'ibu':
-        metric_data.innerText = `${style.ibuMin || ''} - ${style.ibuMax || ''}`;
+      case 'IBU':
+        metric_data.innerText = `${style.ibuMin || ''}-${style.ibuMax || ''}`;
         break;
-      case 'og':
-        metric_data.innerText = `${style.ogMin || ''}`;
+      case 'OG':
+        metric_data.innerText = `${style.ogMin || '-'}`;
         break;
-      case 'srm':
-        metric_data.innerText = `${style.srmMin || ''} - ${style.srmMax || ''}`;
+      case 'SRM':
+        metric_data.innerText = `${style.srmMin || ''}-${style.srmMax || ''}`;
         break;
       default:
         break;
@@ -90,27 +93,27 @@ class Beer{
   }
 
   createCommonInfoElement(node,className, beerData){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     const _beerData = Object.assign({}, beerData);
     const metrics = [{
-        name: 'abv',
+        name: 'ABV',
         style: _beerData.style
       },
       {
-        name: 'ibu',
+        name: 'IBU',
         style: _beerData.style
       },
       {
-        name: 'og',
+        name: 'OG',
         style: _beerData.style
       },
       {
-        name: 'srm',
+        name: 'SRM',
         style: _beerData.style
       }
     ];
   
-    let metricElements = metrics.map(this.createMetricElement);
+    const metricElements = metrics.map(this.createMetricElement);
     metricElements.forEach((metricElement) => {
       elem.appendChild(metricElement);
     });
@@ -119,31 +122,14 @@ class Beer{
     return elem;
   }
 
-  createFullDescription(beer){
-    let result;
-    let _beer = Object.assign({}, beer);
-    result = _beer.style.description;
-    return result;
-  }
-
   onClick(e){
-    let oldOpen = Beer.getClickedElement();
-    if(oldOpen && oldOpen != this){
-      oldOpen.fullBeerInfo.classList.toggle('open', false);
-      oldOpen.beerElement.classList.toggle('open', false);
-      window.scrollTo(0, this.idx * 100 + 80);
-    }
-    Beer.setClickedElement(this);
-
-    let promise = new Promise((resolve, reject) => {
-      const url = `api/beer/${this.beerId}`;
-      let request = new XMLHttpRequest();
-      request.open('GET', url);
+    const promise = new Promise((resolve, reject) => {
+      const request = new XMLHttpRequest();
+      request.open('GET', `api/beerModal/${this.beerId}`);
       request.send();
-    
       request.onreadystatechange = () => {
         if (request.readyState == 4 && request.status == 200) {
-          let response = JSON.parse(request.responseText);
+          const response = request.responseText;
           if (response) {
             resolve(response)
           } else {
@@ -154,16 +140,16 @@ class Beer{
     })
 
     promise
-    .then( beer => {
-        let fullDescription = this.createFullDescription(beer);
-        let elem = this.beerElement.querySelector('div.beer__full-info');
-        elem.innerText = fullDescription;
-        elem.classList.toggle('beer__full-info--opened');
-        this.beerElement.classList.toggle('beer__full-info--opened');
+    .then( html => {
+        const modal = document.getElementById('modal');
+        const body  = document.body;
+        modal ? modal.innerHTML = html : null;
+        modal.classList.toggle('modal--close');
+        body.classList.toggle('body--fixed');
         return;
       })
     .catch( err => console.dir(err));
-}
+  }
   
   render(){
     this.beerElement.appendChild(this.beerImage);
@@ -177,14 +163,6 @@ class Beer{
     this.beerElement.addEventListener('click', (e) => this.onClick(e))
     
     return this.beerElement;
-  }
-
-  static setClickedElement(params) {
-    Beer.clickedElement = params;
-  }
-
-  static getClickedElement() {
-    return Beer.clickedElement;
   }
 }
 
@@ -224,13 +202,14 @@ class Beers {
 }
 
 export default function searchBeer(value) {
-  let url = 'api/beers'
+  let url = 'api/beers';
+  
   if (value) {
     url += `?name=${value}`
   }
 
-  let promise = new Promise((resolve, reject) => {
-    let request = new XMLHttpRequest();
+  const promise = new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
     request.open('GET', url);
     request.send();
   
