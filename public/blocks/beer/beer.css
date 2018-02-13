@@ -1,15 +1,18 @@
 @import '__common-info/beer__common-info.css';
 @import '__full-info/beer__full-info.css';
 @import '__image/beer__image.css';
-@import '__metric/beer__metric.css';
-@import '__metric-data/beer__metric-data.css';
-@import '__metric-name/beer__metric-name.css';
 @import '__title/beer__title.css';
 @import '__information/beer_information.css';
 
 .beer {
+  cursor: pointer;
   position: relative;
   overflow: hidden;
+}
+
+.beer__mertric {
+  width: 50%;
+  display: inline-block;
 }
 
 .beer__underline {

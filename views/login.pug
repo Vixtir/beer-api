@@ -1,0 +1,7 @@
+extends layout.pug
+block content
+  div Login
+  form(onsubmit="myLib.login()").login-form
+    input(type="text" name="name" id="name").login-form__input
+    input(type="text" name="password" id="password").login-form__input
+    input(type="submit", value="submit")

@@ -14,7 +14,9 @@ module.exports = function(app, db){
 
   app.route('/api/beer/:id')
     .get(beer.getBeer);
-  app.route('import/beers')
+  app.route('/api/beerModal/:id')
+    .get(beer.getModalBeer);  
+  app.route('/import/beers')
     .post(user.requireLogin, importBeers)
   //Category
   app.route('/api/categories')
@@ -26,12 +28,11 @@ module.exports = function(app, db){
   app.route('/api/styles')
     .get(style.getStyleList)
     .delete(style.deleteStyles);
-  app.route('import/styles')
+  app.route('/import/styles')
     .post(user.requireLogin, importStyles)
   //User
   app.route('/login')
     .post(user.loginUser)
   app.route('/register')
-    .post(user.registerUser)
-
+    .post(user.registerUser);
 }

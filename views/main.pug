@@ -1,0 +1,8 @@
+extends layout.pug
+block content
+  .application
+    .header.application__header
+      span.header__title Beer
+      form(name="search-form").search-form.header__search-form
+        input(type="text" name="beer-name" value="" id="beer-name" ondragenter="null").search-form__input
+    #beer-list.beer-list.application__beer-list

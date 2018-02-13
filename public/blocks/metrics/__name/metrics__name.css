@@ -1,0 +1,7 @@
+@import '--modal/metrics__name--modal.css';
+@import '--beer/metrics__name--beer.css';
+.metrics__name {
+  display: inline-block;
+  width: 30%;
+  font-weight: bold;
+}

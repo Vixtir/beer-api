@@ -1,0 +1,47 @@
+@import '__overlay/modal__overlay.css';
+@import '__body/modal__body.css';
+@import '__button/modal__button.css';
+@import '__beer-desc/modal__beer-desc.css';
+@import '__beer-name/modal__beer-name.css';
+@import '__beer-category/modal__beer-category.css';
+.modal {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top:0;
+}
+
+.modal--close {
+  display: none;
+}
+
+.modal__body {
+  position: relative;
+  top: 50px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: calc(100% - 40px);
+  max-width: 480px;
+  max-height: calc(100% - 100px);
+  padding: 20px;
+  overflow: auto;
+}
+
+.modal__button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 24px;
+  height: 24px;
+}
+
+.modal__mertric {
+  width: 25%;
+  display: inline-block;
+}
+
+@media screen and (max-height: 600px) {
+
+}

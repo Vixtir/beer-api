@@ -1,0 +1,10 @@
+extends layout.pug
+block append scripts
+  script(src="./dist/admin.bundle.js" defer)
+block content
+  .admin-panel
+    span.admin-panel__title Admin Panel
+    span.admin-panel__title Import
+    .admin-panel__button#Categories Categories
+    .admin-panel__button#Styles Styles
+    .admin-panel__button#Beers Beers    
