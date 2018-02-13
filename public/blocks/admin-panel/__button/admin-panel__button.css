@@ -1,9 +1,8 @@
 .admin-panel__button {
   height: 40px;
   width: 120px;
-  margin: 5px;
+  margin: 5px auto;
   padding: 5px;
-  display: inline-block;
   background-color: brown;
   color: white;
   font-size: 20px;
