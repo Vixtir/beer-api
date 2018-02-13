@@ -1,0 +1,9 @@
+@import '__title/admin-panel__title.css';
+@import '__button/admin-panel__button.css';
+.admin-panel {
+  border: 1px blue solid;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  height: 200px;
+}

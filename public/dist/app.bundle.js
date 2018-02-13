@@ -1,4 +1,14 @@
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["myLib"] = factory();
+	else
+		root["myLib"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -70,18 +80,20 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__beers__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__blocks_modal_modal_js__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__styles_style_css__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__styles_style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__styles_style_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__blocks_modal_modal_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__styles_style_css__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__styles_style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__styles_style_css__);
+
 
 
 
 
 document.onscroll = function(e){
-  let header = document.querySelector('div.header');
-  let searchForm = header.querySelector('.search-form');
-  let height = getComputedStyle(header).height;
-  let scroll = window.pageYOffset || document.documentElement.scrollTop;
+  const header = document.querySelector('div.header');
+  const searchForm = header.querySelector('.search-form');
+  const height = getComputedStyle(header).height;
+  const scroll = window.pageYOffset || document.documentElement.scrollTop;
   if(scroll > 45){
     searchForm.classList.add('header__search-form--fixed');
   } else {
@@ -89,40 +101,76 @@ document.onscroll = function(e){
   }
 }
 
-let beerInput = document.querySelector('#beer-name');
-let newSearchBeer = myThrotlle(__WEBPACK_IMPORTED_MODULE_0__beers__["a" /* default */], 500);
+const beerInput = document.querySelector('#beer-name');
+const newSearchBeer = Object(__WEBPACK_IMPORTED_MODULE_1__utils__["a" /* myThrotlle */])(__WEBPACK_IMPORTED_MODULE_0__beers__["a" /* default */], 500);
 
 if(beerInput){
   beerInput.addEventListener('input', function(e){
-    let form = document.forms['search-form'];
-    let beerName = form.elements['beer-name'].value;
+    const form = document.forms['search-form'];
+    const beerName = form.elements['beer-name'].value;
     newSearchBeer(beerName);
   })  
 }
 
-function myThrotlle(f, ms){
-  var throttle = false,
-      currentArgs;
-
-  return function wrapper(){
-    if(throttle){
-      currentArgs = arguments;
-      return;
-    } 
+const login = function(){
+  event.preventDefault();
+  const form = event.target;
+  const name  = form.querySelector('input#name').value;
+  const password = form.querySelector('input#password').value;
+  if(name && password){
+    const body = `name=${encodeURIComponent(name)}&password=${encodeURIComponent(password)}`;
+    const request = new XMLHttpRequest();
+    request.open('POST', 'login');
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    request.send(body);
     
-    throttle = true;
-    f.apply(null, arguments);
+    request.onreadystatechange = () => {
+      if (request.readyState == 4 && request.status == 200) {
 
-    setTimeout(
-      function(){
-        throttle = false;
-        if(currentArgs){
-          wrapper.apply(null, currentArgs);
-          currentArgs = null;
+        const response = JSON.parse(request.responseText);
+        if (response) {
+          debugger;
+          window.localStorage.setItem('token', response.token);
+        } else {
+          console.log('something went wrong');
         }
-      }, ms);
+      };
+    }
   }
 }
+/* harmony export (immutable) */ __webpack_exports__["login"] = login;
+
+
+const register = function(){
+  event.preventDefault();
+  const form = event.target;
+  const name  = form.querySelector('input#name').value;
+  const password = form.querySelector('input#password').value;
+
+  if(name && password){
+    const body = `name=${encodeURIComponent(name)}&password=${encodeURIComponent(password)}`;
+    const request = new XMLHttpRequest();
+    request.open('POST', 'register');
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    request.send(body);
+    
+    request.onreadystatechange = () => {
+      if (request.readyState == 4 && request.status == 200) {
+        if(request.status == 200){
+          try {
+            const response = JSON.parse(request.responseText);
+            console.log(response);
+          } catch (error) {
+            console.err(error);
+          }
+        } else {
+          console.log('something went wrong');
+        }
+      };
+    }
+  }}
+/* harmony export (immutable) */ __webpack_exports__["register"] = register;
+
 
 /***/ }),
 /* 1 */
@@ -130,8 +178,8 @@ function myThrotlle(f, ms){
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = searchBeer;
-let beerWrapper = document.querySelector("#beer-list");
-let beerInput = document.querySelector('#beer-name');
+const beerWrapper = document.querySelector("#beer-list");
+const beerInput = document.querySelector('#beer-name');
 
 class Beer{
   constructor(props){
@@ -147,19 +195,19 @@ class Beer{
   }
 
   createUnderlineElement(node, className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   }
 
   createMainBeerElement(node, className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   }
 
   createBeerImage(node, className, beerLabels){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
   
     beerLabels && beerLabels.medium ?
       elem.src = beerLabels.medium :
@@ -170,36 +218,36 @@ class Beer{
   };
 
   createBeerInformationElement (node,className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   };
 
   createFullBeerInfoElement (node,className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   };
 
   createBeerNameElement(node,className, name){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.innerText = name;
     elem.className = className;
     return elem;
   };
 
   createMetricElement({name,style}){
-    let metricsBlock = document.createElement('div');
+    const metricsBlock = document.createElement('div');
     metricsBlock.className = 'metrics';
 
-    let beer_metric = document.createElement('span');
+    const beer_metric = document.createElement('span');
     beer_metric.className = 'beer__mertric metrics__metric';
   
-    let metric_name = document.createElement('span');
+    const metric_name = document.createElement('span');
     metric_name.className = 'metrics__name metrics__name--beer';
     metric_name.innerText = `${name}: `;
   
-    let metric_data = document.createElement('span');
+    const metric_data = document.createElement('span');
     metric_data.className = 'metric__data';
   
     switch (name) {
@@ -225,7 +273,7 @@ class Beer{
   }
 
   createCommonInfoElement(node,className, beerData){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     const _beerData = Object.assign({}, beerData);
     const metrics = [{
         name: 'ABV',
@@ -245,7 +293,7 @@ class Beer{
       }
     ];
   
-    let metricElements = metrics.map(this.createMetricElement);
+    const metricElements = metrics.map(this.createMetricElement);
     metricElements.forEach((metricElement) => {
       elem.appendChild(metricElement);
     });
@@ -255,13 +303,13 @@ class Beer{
   }
 
   onClick(e){
-    let promise = new Promise((resolve, reject) => {
-      let request = new XMLHttpRequest();
+    const promise = new Promise((resolve, reject) => {
+      const request = new XMLHttpRequest();
       request.open('GET', `api/beerModal/${this.beerId}`);
       request.send();
       request.onreadystatechange = () => {
         if (request.readyState == 4 && request.status == 200) {
-          let response = request.responseText;
+          const response = request.responseText;
           if (response) {
             resolve(response)
           } else {
@@ -273,8 +321,8 @@ class Beer{
 
     promise
     .then( html => {
-        let modal = document.getElementById('modal');
-        let body  = document.body;
+        const modal = document.getElementById('modal');
+        const body  = document.body;
         modal ? modal.innerHTML = html : null;
         modal.classList.toggle('modal--close');
         body.classList.toggle('body--fixed');
@@ -334,13 +382,14 @@ class Beers {
 }
 
 function searchBeer(value) {
-  let url = 'api/beers'
+  let url = 'api/beers';
+  
   if (value) {
     url += `?name=${value}`
   }
 
-  let promise = new Promise((resolve, reject) => {
-    let request = new XMLHttpRequest();
+  const promise = new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
     request.open('GET', url);
     request.send();
   
@@ -376,6 +425,37 @@ function searchBeer(value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+const myThrotlle = (f, ms) => {
+  let throttle = false,
+      currentArgs;
+
+  return function wrapper(){
+    if(throttle){
+      currentArgs = arguments;
+      return;
+    } 
+    
+    throttle = true;
+    f.apply(null, arguments);
+
+    setTimeout(
+      function(){
+        throttle = false;
+        if(currentArgs){
+          wrapper.apply(null, currentArgs);
+          currentArgs = null;
+        }
+      }, ms);
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = myThrotlle;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* unused harmony default export */ var _unused_webpack_default_export = ((function(){
   let modalWindow = document.getElementById('modal');
   let body = document.body;
@@ -396,10 +476,11 @@ function searchBeer(value) {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
+});

@@ -1,5 +1,5 @@
-let beerWrapper = document.querySelector("#beer-list");
-let beerInput = document.querySelector('#beer-name');
+const beerWrapper = document.querySelector("#beer-list");
+const beerInput = document.querySelector('#beer-name');
 
 class Beer{
   constructor(props){
@@ -15,19 +15,19 @@ class Beer{
   }
 
   createUnderlineElement(node, className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   }
 
   createMainBeerElement(node, className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   }
 
   createBeerImage(node, className, beerLabels){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
   
     beerLabels && beerLabels.medium ?
       elem.src = beerLabels.medium :
@@ -38,36 +38,36 @@ class Beer{
   };
 
   createBeerInformationElement (node,className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   };
 
   createFullBeerInfoElement (node,className){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.className = className;
     return elem;
   };
 
   createBeerNameElement(node,className, name){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     elem.innerText = name;
     elem.className = className;
     return elem;
   };
 
   createMetricElement({name,style}){
-    let metricsBlock = document.createElement('div');
+    const metricsBlock = document.createElement('div');
     metricsBlock.className = 'metrics';
 
-    let beer_metric = document.createElement('span');
+    const beer_metric = document.createElement('span');
     beer_metric.className = 'beer__mertric metrics__metric';
   
-    let metric_name = document.createElement('span');
+    const metric_name = document.createElement('span');
     metric_name.className = 'metrics__name metrics__name--beer';
     metric_name.innerText = `${name}: `;
   
-    let metric_data = document.createElement('span');
+    const metric_data = document.createElement('span');
     metric_data.className = 'metric__data';
   
     switch (name) {
@@ -93,7 +93,7 @@ class Beer{
   }
 
   createCommonInfoElement(node,className, beerData){
-    let elem = document.createElement(node);
+    const elem = document.createElement(node);
     const _beerData = Object.assign({}, beerData);
     const metrics = [{
         name: 'ABV',
@@ -113,7 +113,7 @@ class Beer{
       }
     ];
   
-    let metricElements = metrics.map(this.createMetricElement);
+    const metricElements = metrics.map(this.createMetricElement);
     metricElements.forEach((metricElement) => {
       elem.appendChild(metricElement);
     });
@@ -123,13 +123,13 @@ class Beer{
   }
 
   onClick(e){
-    let promise = new Promise((resolve, reject) => {
-      let request = new XMLHttpRequest();
+    const promise = new Promise((resolve, reject) => {
+      const request = new XMLHttpRequest();
       request.open('GET', `api/beerModal/${this.beerId}`);
       request.send();
       request.onreadystatechange = () => {
         if (request.readyState == 4 && request.status == 200) {
-          let response = request.responseText;
+          const response = request.responseText;
           if (response) {
             resolve(response)
           } else {
@@ -141,8 +141,8 @@ class Beer{
 
     promise
     .then( html => {
-        let modal = document.getElementById('modal');
-        let body  = document.body;
+        const modal = document.getElementById('modal');
+        const body  = document.body;
         modal ? modal.innerHTML = html : null;
         modal.classList.toggle('modal--close');
         body.classList.toggle('body--fixed');
@@ -202,13 +202,14 @@ class Beers {
 }
 
 export default function searchBeer(value) {
-  let url = 'api/beers'
+  let url = 'api/beers';
+  
   if (value) {
     url += `?name=${value}`
   }
 
-  let promise = new Promise((resolve, reject) => {
-    let request = new XMLHttpRequest();
+  const promise = new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
     request.open('GET', url);
     request.send();
   

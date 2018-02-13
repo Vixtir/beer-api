@@ -1,12 +1,13 @@
-import searchBeer from './beers';
+import searchBeer       from './beers';
+import { myThrotlle }   from './utils';
 import * as modalScript from '../blocks/modal/modal.js';
-import css from '../styles/style.css'
+import css              from '../styles/style.css'
 
 document.onscroll = function(e){
-  let header = document.querySelector('div.header');
-  let searchForm = header.querySelector('.search-form');
-  let height = getComputedStyle(header).height;
-  let scroll = window.pageYOffset || document.documentElement.scrollTop;
+  const header = document.querySelector('div.header');
+  const searchForm = header.querySelector('.search-form');
+  const height = getComputedStyle(header).height;
+  const scroll = window.pageYOffset || document.documentElement.scrollTop;
   if(scroll > 45){
     searchForm.classList.add('header__search-form--fixed');
   } else {
@@ -14,37 +15,69 @@ document.onscroll = function(e){
   }
 }
 
-let beerInput = document.querySelector('#beer-name');
-let newSearchBeer = myThrotlle(searchBeer, 500);
+const beerInput = document.querySelector('#beer-name');
+const newSearchBeer = myThrotlle(searchBeer, 500);
 
 if(beerInput){
   beerInput.addEventListener('input', function(e){
-    let form = document.forms['search-form'];
-    let beerName = form.elements['beer-name'].value;
+    const form = document.forms['search-form'];
+    const beerName = form.elements['beer-name'].value;
     newSearchBeer(beerName);
   })  
 }
 
-function myThrotlle(f, ms){
-  var throttle = false,
-      currentArgs;
-
-  return function wrapper(){
-    if(throttle){
-      currentArgs = arguments;
-      return;
-    } 
+export const login = function(){
+  event.preventDefault();
+  const form = event.target;
+  const name  = form.querySelector('input#name').value;
+  const password = form.querySelector('input#password').value;
+  if(name && password){
+    const body = `name=${encodeURIComponent(name)}&password=${encodeURIComponent(password)}`;
+    const request = new XMLHttpRequest();
+    request.open('POST', 'login');
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    request.send(body);
     
-    throttle = true;
-    f.apply(null, arguments);
+    request.onreadystatechange = () => {
+      if (request.readyState == 4 && request.status == 200) {
 
-    setTimeout(
-      function(){
-        throttle = false;
-        if(currentArgs){
-          wrapper.apply(null, currentArgs);
-          currentArgs = null;
+        const response = JSON.parse(request.responseText);
+        if (response) {
+          debugger;
+          window.localStorage.setItem('token', response.token);
+        } else {
+          console.log('something went wrong');
         }
-      }, ms);
+      };
+    }
   }
 }
+
+export const register = function(){
+  event.preventDefault();
+  const form = event.target;
+  const name  = form.querySelector('input#name').value;
+  const password = form.querySelector('input#password').value;
+
+  if(name && password){
+    const body = `name=${encodeURIComponent(name)}&password=${encodeURIComponent(password)}`;
+    const request = new XMLHttpRequest();
+    request.open('POST', 'register');
+    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    request.send(body);
+    
+    request.onreadystatechange = () => {
+      if (request.readyState == 4 && request.status == 200) {
+        if(request.status == 200){
+          try {
+            const response = JSON.parse(request.responseText);
+            console.log(response);
+          } catch (error) {
+            console.err(error);
+          }
+        } else {
+          console.log('something went wrong');
+        }
+      };
+    }
+  }}

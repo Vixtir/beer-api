@@ -1,11 +1,16 @@
 const path = require('path');
 const ExtractTextPlugin = require ('extract-text-webpack-plugin');
 
-module.exports = {
-  entry: './public/scripts/index.js',
+const config = {
+  entry: {
+    app: './public/scripts/index.js',
+    admin: './public/scripts/admin.js'
+  },
   output: {
     path: path.resolve(__dirname, 'public/dist'),
-    filename: 'app.bundle.js'
+    filename: '[name].bundle.js',
+    library: "myLib",
+    libraryTarget: "umd"
   },
   module: {
       rules:[
@@ -23,3 +28,5 @@ module.exports = {
   ],
   watch: true
 };
+
+module.exports = config;
