@@ -1,7 +1,8 @@
 extends layout.pug
 block content
-  div Register
   form(onsubmit="myLib.register()").login-form
+    label(for="name").login-form__label Name
     input(type="text" name="name" id="name").login-form__input
-    input(type="text" name="password" id="password").login-form__input
-    input(type="submit", value="submit")
+    label(for="password").login-form__label Password
+    input(type="password" name="password" id="password").login-form__input
+    input(type="submit", value="Register").login-form__submit

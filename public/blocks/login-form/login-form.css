@@ -1,9 +1,11 @@
-@import '__input/__input.css';
+@import '__input/login-form__input.css';
+@import '__title/login-form__title.css';
+@import '__label/login-form__label.css';
+@import '__submit/login-form__submit.css';
 .login-form {
-  background-color: rgba(0, 189, 200, 0.17);
+  background-color: rgba(19, 10, 106, 0.521);
   width: 100%;
   max-width: 360px;
-  height: 130px;
-  margin: 10px auto;
-  padding: 30px 0;
+  margin: 40px auto;
+  padding: 10px 20px;
 }
