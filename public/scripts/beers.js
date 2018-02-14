@@ -140,15 +140,14 @@ class Beer{
     })
 
     promise
-    .then( html => {
-        const modal = document.getElementById('modal');
-        const body  = document.body;
-        modal ? modal.innerHTML = html : null;
-        modal.classList.toggle('modal--close');
-        body.classList.toggle('body--fixed');
-        return;
-      })
-    .catch( err => console.dir(err));
+      .then( html => {
+          const modal = document.getElementById('modal');
+          const body  = document.body;
+          modal ? modal.innerHTML = html : null;
+          modal.classList.toggle('modal--close');
+          body.classList.toggle('body--fixed');
+        })
+      .catch( err => console.dir(err));
   }
   
   render(){

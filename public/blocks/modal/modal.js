@@ -1,6 +1,6 @@
 export default (function(){
-  let modalWindow = document.getElementById('modal');
-  let body = document.body;
+  const modalWindow = document.getElementById('modal');
+  const body = document.body;
   modalWindow.addEventListener('click', closeModal);
   
   function closeModal(e){

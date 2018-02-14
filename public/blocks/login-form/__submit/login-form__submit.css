@@ -1,0 +1,8 @@
+.login-form__submit {
+  background-color: rgb(245, 242, 58);
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 10px 0;
+  border: 2px black solid;
+  cursor: pointer;
+}
