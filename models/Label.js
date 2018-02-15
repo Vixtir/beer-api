@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
 
-const labelSchema = mongoose.Schema({
+const LabelSchema = mongoose.Schema({
   icon: String,
   medium: String,
-  large: String
+  large: String,
 });
 
-
-
-module.exports = labelSchema
+module.exports = LabelSchema;
