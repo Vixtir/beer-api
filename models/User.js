@@ -1,27 +1,27 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const userSchema = mongoose.Schema({
-  name: { 
-    type: String, 
+const UserSchema = mongoose.Schema({
+  name: {
+    type: String,
     required: true,
     trim: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
-userSchema.statics.search = function search(cb) {
+UserSchema.statics.search = function search(cb) {
   this.where({})
     .find()
     .exec(cb);
-}
+};
 
-userSchema.statics.comparePassword = function comparePassword(user, password){
-  return bcrypt.compare(password, user.password)
-}
+UserSchema.statics.comparePassword = function comparePassword(user, password) {
+  return bcrypt.compare(password, user.password);
+};
 
-module.exports = userSchema;
+module.exports = UserSchema;

@@ -1,16 +1,16 @@
-const { styleModel } = require('../models/db.js');
+const { StyleModel } = require('../models/db.js');
 
-exports.getStyleList = function(req, res){
-  const query =styleModel.where({})
-  let cb = (err, styles) => {
-    err ? res.json(err) : res.json(styles);
-  }
-  query.find().populate('category').exec(cb)
-}
+const getStyleList = (req, res) => {
+  const query = StyleModel.where({});
+  const cb = (err, styles) => res.json(err || styles);
 
-exports.deleteStyles = function(req, res){
-  const query =styleModel.where({})
-  query.remove(function(err, styles){
-    err ? res.json(err) : res.json(styles)
-  })
-}
+  query.find().populate('category').exec(cb);
+};
+
+const deleteStyles = (req, res) => {
+  const query = StyleModel.where({});
+  query.remove((err, styles) => res.json(err || styles));
+};
+
+module.exports.getStyleList = getStyleList;
+module.exports.deleteStyles = deleteStyles;

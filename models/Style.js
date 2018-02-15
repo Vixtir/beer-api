@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const styleSchema = mongoose.Schema({
-  category: {type: mongoose.Schema.ObjectId, ref: 'Category'},
+const StyleSchema = mongoose.Schema({
+  category: { type: mongoose.Schema.ObjectId, ref: 'Category' },
   name: String,
   shortName: String,
   description: String,
@@ -13,7 +13,7 @@ const styleSchema = mongoose.Schema({
   srmMax: String,
   ogMin: String,
   fgMin: String,
-  fgMax: String
+  fgMax: String,
 });
 
-module.exports = styleSchema;
+module.exports = StyleSchema;

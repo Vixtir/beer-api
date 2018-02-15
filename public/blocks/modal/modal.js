@@ -1,17 +1,19 @@
-export default (function(){
+const modalScript = () => {
   const modalWindow = document.getElementById('modal');
   const body = document.body;
-  modalWindow.addEventListener('click', closeModal);
-  
-  function closeModal(e){
-    const target = e.target;
+  const closeModal = (event) => {
+    const { target } = event;
 
-    if(modalWindow && target.id == 'modal-overlay' || target.id == 'modal__button' ){
-      while(modalWindow.firstChild){
-        modalWindow.removeChild(modalWindow.firstChild)
+    if (modalWindow && target.id === 'modal-overlay' || target.id === 'modal__button') {
+      while (modalWindow.firstChild) {
+        modalWindow.removeChild(modalWindow.firstChild);
       }
-       modalWindow.classList.toggle('modal--close');
-       body.classList.toggle('body--fixed');
+      modalWindow.classList.toggle('modal--close');
+      body.classList.toggle('body--fixed');
     }
-  }
-})();
+  };
+
+  modalWindow.addEventListener('click', closeModal);
+};
+
+export default modalScript();

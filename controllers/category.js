@@ -1,17 +1,14 @@
-const { categoryModel } = require('../models/db.js');
+const { CategoryModel } = require('../models/db.js');
 
-exports.getCategoryList = function(req, res){
-  const query =categoryModel.where({})
-  query.find(function(err, categories){
-    err ? res.json(err) 
-        : res.json(categories)
-  })
-}
+const getCategoryList = (req, res) => {
+  const query = CategoryModel.where({});
+  query.find((err, categories) => res.json(err || categories));
+};
 
-exports.deleteCategories = function(req, res){
-  const query =categoryModel.where({})
-  query.remove(function(err, categories){
-    err ? res.json(err)
-        : res.json(categories)
-  })
-}
+const deleteCategories = (req, res) => {
+  const query = CategoryModel.where({});
+  query.remove((err, categories) => res.json(err || categories));
+};
+
+module.exports.getCategoryList = getCategoryList;
+module.exports.deleteCategories = deleteCategories;
