@@ -1,4 +1,4 @@
-const { StyleModel } = require('../models/db.js');
+const { StyleModel } = require('../db/index.js');
 
 const getStyleList = (req, res) => {
   const query = StyleModel.where({});

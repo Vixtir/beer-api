@@ -1,6 +1,6 @@
 const { XMLHttpRequest } = require('xmlhttprequest');
 const { brewApiKey } = require('../../config.js').secret;
-const { CategoryModel, StyleModel } = require('../../models/db.js');
+const { CategoryModel, StyleModel } = require('../../db/index.js');
 
 const saveStyle = (importStyle) => {
   const promise = new Promise((resolve, reject) => {
