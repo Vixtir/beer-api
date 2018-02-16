@@ -16,4 +16,4 @@ const StyleSchema = mongoose.Schema({
   fgMax: String,
 });
 
-module.exports = StyleSchema;
+module.exports = mongoose.model('Style', StyleSchema);

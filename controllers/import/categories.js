@@ -1,6 +1,6 @@
 const { XMLHttpRequest } = require('xmlhttprequest');
 const { brewApiKey } = require('../../config.js').secret;
-const { CategoryModel } = require('../../models/db.js');
+const { CategoryModel } = require('../../db/index.js');
 
 const saveCategory = (category) => {
   const promise = new Promise((resolve) => {

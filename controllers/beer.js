@@ -1,4 +1,4 @@
-const { BeerModel } = require('../models/db.js');
+const { BeerModel } = require('../db/index.js');
 const path = require('path');
 const pug = require('pug');
 

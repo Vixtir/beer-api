@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const routes = require('./controllers/index.js');
-const db = require('./models/db.js');
+const db = require('./db/index.js');
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('./config.js').secret;
 

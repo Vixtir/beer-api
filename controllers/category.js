@@ -1,4 +1,4 @@
-const { CategoryModel } = require('../models/db.js');
+const { CategoryModel } = require('../db/index.js');
 
 const getCategoryList = (req, res) => {
   const query = CategoryModel.where({});

@@ -60,4 +60,4 @@ BeerSchema.statics.search = function search(limit = 10, cb) {
     .exec(cb);
 };
 
-module.exports = BeerSchema;
+module.exports = mongoose.model('Beer', BeerSchema);
