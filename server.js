@@ -5,7 +5,7 @@ const db = require('./db/index.js');
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET || require('./config.js').secret.JWT_SECRET;
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.set('view engine', 'pug');
