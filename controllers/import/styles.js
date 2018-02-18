@@ -1,5 +1,5 @@
 const { XMLHttpRequest } = require('xmlhttprequest');
-const { brewApiKey } = require('../../config.js').secret;
+const { brewApiKey } = process.env.BREW_API || require('../../config.js').secret.BREW_API;
 const { CategoryModel, StyleModel } = require('../../db/index.js');
 
 const saveStyle = (importStyle) => {

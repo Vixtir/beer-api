@@ -1,7 +1,7 @@
 const { UserModel } = require('../db/index.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../config.js').secret;
+const jwtSecret = process.env.JWT_SECRET || require('../config.js').secret.JWT_SECRET;
 
 const findUser = (name) => {
   const query = UserModel.where({ name });
